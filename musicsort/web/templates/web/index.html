@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block metatags %}
+{% if not request.user.is_authenticated %}
+<meta http-equiv="REFRESH" content="0;url={% url 'login' %}">
+{% endif %}
+{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet"
+       href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/dropzone.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/awesome-bootstrap-checkbox.css' %}"/> 
+{% endblock %}
+
+{% block wrapper %}    
+    <div class="container">
+      <header class="header clearfix">
+        <nav class="nav nav-pills">
+	  <div class="navbar-header">
+	    <a class="navbar-brand" href="#">
+	      <img style="max-width:300px; padding-bottom: 20px; margin-top: -30px;" src="{% static 'img/logo_header.png' %}"/>
+	    </a>
+	  </div>
+	  <div class="pull-right">
+	    <p class="navbar-text">{{request.user}}</p>
+            <a href="{% url 'logout' %}?next={{request.path}}"><button type="button" class="btn btn-default
+            navbar-btn">Salir</button></a>
+	  </div>
+        </nav>
+	
+      <hr class="colorgraph">	  
+      </header>
+      
+      <!-- SECTION CHECKBOXES -->
+      <section id="sort-opts">
+	<div class="page-header">
+	  <h3>1.- ¿Cómo quieres ordenar tu música? <small>Selecciona
+	      tus criterios</small></h3>
+	</div>
+
+	<h4>Selecciona la jerarquía</h4>
+	<div id="options1" class="box-opts">
+	  <div class="checkbox checkbox checkbox-inline">
+            <input type="radio" id="default1" value="None" name="radioInline1" checked>
+            <label for="default1">Por defecto (sin carpetas) </label>
+          </div>
+          <div class="checkbox checkbox-primary checkbox-inline">
+            <input type="radio" id="artist1" value="artist" name="radioInline1">
+            <label for="artist1">Artista</label>
+          </div>
+	  <div class="checkbox checkbox-primary checkbox-inline">
+            <input type="radio" id="genre1" value="genre" name="radioInline1">
+            <label for="genre1">Género</label>
+          </div>
+          <div class="checkbox checkbox-primary checkbox-inline">
+            <input type="radio" id="year1" value="year" name="radioInline1">
+            <label for="year1">Año</label>
+          </div>
+	  <div class="checkbox checkbox-primary checkbox-inline">
+            <input type="radio" id="album1" value="album" name="radioInline1">
+            <label for="album1">Album</label>
+          </div>
+	</div>
+	<div id="options2" class="box-opts-2">
+	  <hr>
+	  <div class="checkbox checkbox checkbox-inline">
+            <input type="radio" id="default2" value="None" name="radioInline2" checked>
+            <label for="default2">Por defecto (sin carpetas) </label>
+          </div>
+          <div class="checkbox checkbox-info checkbox-inline">
+            <input type="radio" id="artist2" value="artist" name="radioInline2">
+            <label for="artist2">Artista</label>
+          </div>
+	  <div class="checkbox checkbox-info checkbox-inline">
+            <input type="radio" id="genre2" value="genre" name="radioInline2">
+            <label for="genre2">Género</label>
+          </div>
+          <div class="checkbox checkbox-info checkbox-inline">
+            <input type="radio" id="year2" value="year" name="radioInline2">
+            <label for="year2">Año</label>
+          </div>
+	  <div class="checkbox checkbox-info checkbox-inline">
+            <input type="radio" id="album2" value="album" name="radioInline2">
+            <label for="album2">Álbum</label>
+          </div>
+	</div>
+	<hr>
+	<div class="checkbox checkbox-danger" style="text-align:center">
+          <input id="lyrics" type="checkbox" class="styled">
+          <label for="lyrics">
+            <strong>Descargar letra canciones</strong>
+          </label>
+        </div>
+      </section> <!-- SECTION CHECKBOXES -->
+
+      <!-- SECTION DRAGANDDROP -->
+      <section id="drag-drop">
+	<div class="page-header">
+	  <h3>2.- ¡Sube tu música! <small>Haz drag 'n' drop o selecciona</small></h3>
+	</div>
+	
+	<div id="actions" class="row">
+	  {% csrf_token %}
+	  <div class="col-lg-7">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+            <span class="btn btn-success fileinput-button">
+              <i class="glyphicon glyphicon-plus"></i>
+              <span>Añadir...</span>
+            </span>
+            <button type="submit" class="btn btn-primary start">
+              <i class="glyphicon glyphicon-upload"></i>
+              <span>Subir todo</span>
+            </button>
+            <!--button type="reset" class="btn btn-warning cancel">
+	           <i class="glyphicon glyphicon-ban-circle"></i>
+               <span>Cancelar todo</span>
+			</button-->
+            <button type="reset" class="btn btn-danger delete">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Borrar todo</span>
+            </button>
+	  </div><!-- end col-->
+
+	  <div class="col-lg-5">
+            <!-- The global file processing state -->
+            <span class="fileupload-process">
+              <div id="total-progress" class="progress
+					      progress-striped active"
+		   role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+		<div class="progress-bar progress-bar-success"
+		     style="width:0%;"
+		     data-dz-uploadprogress></div>
+              </div>
+            </span>
+	  </div><!-- end col-->
+	  
+	  <!-- DROPZONE -->
+	  <div id="dropzone">
+	    {% csrf_token %}
+	    <div class="dropzone needsclick fileinput-button">
+	      <div class="dz-message needsclick">
+		<strong>Arrastra aquí las canciones<br/>
+		(o haz click para navegar)</strong>
+	      </div>
+	    </div><!-- end dropzone -->
+
+	    <!-- INFORMATION ABOUT SONGS -->
+	    <h4>
+	      <span class="label label-info">Preparadas</span>
+	      <span id="songs-ready"></span>/50
+	      <div class="pull-right">
+		<span id="songs-uploaded"></span>/50
+		<span class="label label-success">Subidas</span>
+	      </div>
+	    </h4>  <!-- end INFORMATION ABOUT SONGS -->
+
+	    <hr>
+
+	    <!-- ERROR MESSAGE -->
+	    <div class="alert alert-danger error-panel" role="alert">
+	      <button type="button" class="close" data-hide="alert">&times;</button>
+	      <span id="text-error"></span>
+	    </div>
+
+	    <!-- LIST OF SONGS UPLOADED -->
+	    <div class="box-list">
+	      <div class="table table-striped files" id="previews">
+		<div id="template" class="file-row">
+		  <!-- This is used as the file preview template -->
+		  <div>
+		    <span class="preview"><img data-dz-thumbnail
+					       /></span>
+		  </div>
+		  <div class="msg-upload">
+		    <span class="label label-success
+				 pull-right">Subida</span>
+		  </div>
+		  <div>
+		    <p class="name" data-dz-name></p>
+		  </div>
+		  <div>
+		    <p class="size" data-dz-size></p>
+		    <div class="progress progress-striped active"
+			 role="progressbar" aria-valuemin="0"
+			 aria-valuemax="100" aria-valuenow="0">
+		      <div class="progress-bar progress-bar-success"
+			   style="width:0%;"
+			   data-dz-uploadprogress></div>
+		    </div>
+		  </div>
+		  <!-- FOR EACH ITEM -->
+		  <button class="btn btn-primary start">
+		    <i class="glyphicon glyphicon-upload"></i>
+		    <span>Subir</span>
+		  </button>
+		  <button data-dz-remove class="btn btn-warning cancel">
+		    <i class="glyphicon glyphicon-ban-circle"></i>
+		    <span>Cancelar</span>
+		  </button>
+		  <!--button data-dz-remove class="btn btn-danger delete pull-right">
+		    <i class="glyphicon glyphicon-trash"></i>
+		    <span>Borrar</span>
+		  </button-->
+		  <hr>
+		</div><!-- end template -->
+	      </div><!-- end previews -->
+	    </div><!-- end box-list -->
+	  </div><!-- end #drop -->
+	</div><!-- end #actions -->
+      </section>
+      
+      <section id="download">
+	<div class="page-header">
+	  <h3>3.- ¡Descarga de nuevo tus ficheros! <small>Pero
+	      organizados</small></h3>
+	</div>
+
+	<button id="download-button" type="button" class="btn btn-primary
+		btn-block">
+	  <i id="download-spinner" class="fa fa-refresh fa-spin"></i>
+	  Descargar .zip</button>
+
+	<hr>
+
+	<div class="alert alert-info info-download" role="alert">
+	  <!--button type="button" class="close" data-hide="alert">&times;</button-->
+	  <span id="info-download-msg"></span>
+	</div>
+	
+      </section>
+      </div>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+    <script src="{% static 'js/dropzone.js' %}"></script>
+    <script src="{% static 'js/logic.js' %}"></script>
+    <script src="{% static 'js/options.js' %}"></script>
+    <script src="{% static 'js/ajax-req.js' %}"></script>
+{% endblock %}
+

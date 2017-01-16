@@ -1,0 +1,24 @@
+TODO LIST:
+==========
+-Login:
+	* Cambiar template: mejor usar Bootstrap
+-Register:
+	* Verificación por email: NO es prioritario
+	* Forget password
+
+-Main:
+	* Fix upload progress bar
+	* Checkboxes: escoger orden
+	*Crear objeto "Song"
+	<xabi>* Pandas: sorting</xabi>
+	*Traducción pandas a listas de de "Songs"
+	* Procesamiento:
+		1.- Subir ficheros
+		2.- Reconocerlos con ACRCloud
+		3.- EN PARALELO:
+		    3a.- Buscar letra si procede
+		    3b.- Buscar metainformación y cover
+		4.- Gather información y escribir en archivo (Rubén)
+		5.- Esperar a todos los archivos subidos y hacer zip
+		6.- Empaquetar para descargar
+	* Meter todo en un zip 

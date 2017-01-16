@@ -1,0 +1,58 @@
+{% extends 'registration/base_register.html' %}
+
+{% load staticfiles %}
+
+{% block custom_links %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}"/>
+{% endblock %}
+
+{% block main %}
+    <form class="form-group" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+      {% csrf_token %}
+      <!-- INPUT -->
+      {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+	<a href="#" class="alert-link">Usuario y/o contraseña
+	  no coinciden.</a>
+      </div>	  
+      {% endif %}
+
+      <!-- needed to iterate in order to clear messages variable -->
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+	{{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div class="form-group">
+	<input type="text" id="{{ form.username.id_for_label }}"
+	       name="{{ form.username.name }}"
+	       class="form-control input-lg" placeholder="Usuario">
+      </div>
+      <div class="form-group">
+	<input type="password" id="{{ form.password.id_for_label }}"
+	       name="{{ form.password.name }}"
+	       class="form-control input-lg" placeholder="Contraseña">
+      </div>
+      <span class="button-checkbox">
+	<button type="button" class="btn" data-color="info">Recordar</button>
+	<input type="checkbox" name="remember_me" id="remember_me" checked="checked" class="hidden">
+	<a href="forgotpass.html" class="disabled btn btn-link pull-right">Recuperar contraseña</a>
+      </span>
+      <hr class="colorgraph">
+      <div class="row">
+	<div class="col-xs-6 col-sm-6 col-md-6">
+	  <input type="submit" class="btn btn-lg btn-success
+				      btn-block" value="Acceder" id="login-button" value="Acceder">
+	</div>
+	<div class="col-xs-6 col-sm-6 col-md-6">
+	  <a href="../register" class="btn btn-lg btn-primary btn-block">Registrar</a>
+	</div>
+	<input type="hidden" name="next" value="/web/"/>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/login.js' %}"></script>    
+{% endblock %}   

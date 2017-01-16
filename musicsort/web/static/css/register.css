@@ -1,0 +1,64 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+#container {
+    width: 535px;
+    background: #ffffff;
+    padding: 20px;
+    margin: 90px auto;
+    border-radius: 5px;
+    height: 150px;
+    border: 2px solid gray;
+}
+#header {
+    text-align: center;
+    background-color: #FEFFED;
+    border-radius: 5px;
+    margin: -39px -20px 10px -20px;
+}
+h2{
+    padding-top: 10px;
+}
+#content {
+    margin-left: 57px;
+    margin-top: 40px;
+}
+
+#result {
+    margin-top: 10px;
+}
+
+#register label {
+    margin-right:5px;
+}
+#register .short {
+    font-weight:bold;
+    color:#FF0000;
+    border-top: 3px solid #FF0000;
+    font-size:larger;
+}
+#register .weak{
+    font-weight:bold;
+    color:orange;
+    border-top: 3px solid orange;
+    width: 30%;
+    font-size:larger;
+}
+#register .good{
+    font-weight:bold;
+    color:#2D98F3;
+    border-top: 3px solid #2D98F3;
+    width: 60%;
+    font-size:larger;
+}
+#register .strong{
+    font-weight:bold;
+    color: limegreen;
+    border-top: 3px solid limegreen;
+    width: 90%;
+    font-size:larger;
+}

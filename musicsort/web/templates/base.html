@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {% block metatags %}{% endblock %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="MusicSort">
+    <meta name="author" content="pig20">
+
+    <title>MusicSort</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    {% block links %}{% endblock %}
+  </head>
+  <body>
+    {% block wrapper %}{% endblock %}
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>&copy; 2016 <b>pig20, Inc.</b></p>
+    </footer>
+  </body>
+</html>

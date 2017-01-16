@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block metatags %}
+    {% if request.user.is_authenticated %}
+    <meta http-equiv="REFRESH" content="0;url={% url 'index' %}">
+    {% endif %}
+{% endblock%}
+    
+{% block links %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
+    {% block custom_links %}{% endblock %}
+{% endblock %}
+
+{% block wrapper %}
+    <div class="container">
+      <div class="row" style="margin-top:20px">
+	<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+	  <img style="width:100%;" src="{% static 'img/logo_header.png' %}"/>
+	  <hr class="colorgraph">
+	  {% block main %}{% endblock %}
+	</div>
+      </div>
+      </div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    {% block scripts %}{% endblock %}
+{% endblock %}
